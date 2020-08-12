@@ -37,7 +37,6 @@
 const buildNav = () => {
     let fragment = document.createDocumentFragment();
     document.querySelectorAll("section").forEach(section => {
-        console.log(section);
         const li = document.createElement('li');
         li.setAttribute("data-section", section.id);
         li.textContent = section.getAttribute("data-nav");
@@ -50,6 +49,13 @@ const buildNav = () => {
 
 
 // Scroll to anchor ID using scrollTO event
+const scrollToSection = (event) => {
+    const target = event.target;
+    if (target.tagName !== "UL") {
+        const section = target.getAttribute("data-section");
+        window.scrollTo(0, document.querySelector(`#${section}`).offsetTop);
+    };
+}
 
 
 /**
@@ -61,6 +67,7 @@ const buildNav = () => {
 // Build menu 
 buildNav();
 // Scroll to section on link click
+document.querySelector("#navbar__list").addEventListener("click", scrollToSection);
 
 // Set sections as active
 
