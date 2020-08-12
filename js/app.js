@@ -34,7 +34,17 @@
 */
 
 // build the nav
-
+const buildNav = () => {
+    let fragment = document.createDocumentFragment();
+    document.querySelectorAll("section").forEach(section => {
+        console.log(section);
+        const li = document.createElement('li');
+        li.setAttribute("data-section", section.id);
+        li.textContent = section.getAttribute("data-nav");
+        fragment.appendChild(li);
+    });
+    document.querySelector("#navbar__list").appendChild(fragment);
+};
 
 // Add class 'active' to section when near top of viewport
 
@@ -49,7 +59,7 @@
 */
 
 // Build menu 
-
+buildNav();
 // Scroll to section on link click
 
 // Set sections as active
