@@ -19,6 +19,8 @@
 */
 const sections = document.querySelectorAll("section");
 const navbar = document.querySelector("#navbar__list");
+const header = document.querySelector(".page__header");
+let timer;
 
 /**
  * End Global Variables
@@ -86,6 +88,14 @@ const scrollToSection = (event) => {
     };
 }
 
+const hideMenu = (event) => {
+    clearTimeout(timer);
+    header.classList.remove("hidden");
+    timer = setTimeout(() => {
+        header.classList.add("hidden");
+    }, 3000);
+}
+
 
 /**
  * End Main Functions
@@ -100,3 +110,8 @@ navbar.addEventListener("click", scrollToSection);
 
 // Set sections as active
 window.addEventListener('scroll', checkActiveSection);
+
+// Hide menu after 3 seconds without scroll
+window.addEventListener('scroll', hideMenu);
+
+
