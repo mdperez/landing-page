@@ -18,6 +18,7 @@
  * 
 */
 const sections = document.querySelectorAll("section");
+const navbar = document.querySelector("#navbar__list");
 
 /**
  * End Global Variables
@@ -25,16 +26,23 @@ const sections = document.querySelectorAll("section");
  * 
 */
 
-//check if the section start is in the (offset*100)% top of the viewport
+//checks if the section start is in the (offset*100)% top of the viewport
 const isInViewport = (node, offset) => {
     const elementBoundings = node.getBoundingClientRect();
-    return (elementBoundings.top >= 0) && (elementBoundings.top <= window.innerHeight*offset);
+    // using -50 as offsetTop cause sometimes when scrollingTo clicking in navbar the node dont go at 0
+    return (elementBoundings.top >= -50) && (elementBoundings.top <= window.innerHeight*offset);
 }
 
+//adds classes to current section and navbar element and removes the old ones
 const setActiveSection = (node) => {
     sections.forEach(section => {
         section.classList.remove("active");
     });
+    navbar.querySelectorAll("li").forEach((menuEntry) => {
+        menuEntry.classList.remove("active");
+    });
+    const sectionId = node.id;
+    document.querySelector(`[data-section='${sectionId}']`).classList.add("active");
     node.classList.add("active");
 }
 
@@ -48,13 +56,16 @@ const setActiveSection = (node) => {
 // build the nav
 const buildNav = () => {
     let fragment = document.createDocumentFragment();
-    sections.forEach(section => {
+    sections.forEach((section, idx) => {
         const li = document.createElement('li');
         li.setAttribute("data-section", section.id);
         li.textContent = section.getAttribute("data-nav");
+        if (idx === 0) {
+            li.classList.add("active");
+        }
         fragment.appendChild(li);
     });
-    document.querySelector("#navbar__list").appendChild(fragment);
+    navbar.appendChild(fragment);
 };
 
 // Add class 'active' to section when near top of viewport
@@ -85,7 +96,7 @@ const scrollToSection = (event) => {
 // Build menu 
 buildNav();
 // Scroll to section on link click
-document.querySelector("#navbar__list").addEventListener("click", scrollToSection);
+navbar.addEventListener("click", scrollToSection);
 
 // Set sections as active
 window.addEventListener('scroll', checkActiveSection);

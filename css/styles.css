@@ -79,6 +79,11 @@ section {
     padding: 5px 10px;
 }
 
+.navbar__menu li.active {
+    font-weight: bold;
+    color: #00e0f9;
+}
+
 .navbar__menu .menu__link {
     display: block;
     padding: 1em;
