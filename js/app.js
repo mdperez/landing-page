@@ -17,7 +17,7 @@
  * Define Global Variables
  * 
 */
-
+const sections = document.querySelectorAll("section");
 
 /**
  * End Global Variables
@@ -25,6 +25,18 @@
  * 
 */
 
+//check if the section start is in the (offset*100)% top of the viewport
+const isInViewport = (node, offset) => {
+    const elementBoundings = node.getBoundingClientRect();
+    return (elementBoundings.top >= 0) && (elementBoundings.top <= window.innerHeight*offset);
+}
+
+const setActiveSection = (node) => {
+    sections.forEach(section => {
+        section.classList.remove("active");
+    });
+    node.classList.add("active");
+}
 
 
 /**
@@ -36,7 +48,7 @@
 // build the nav
 const buildNav = () => {
     let fragment = document.createDocumentFragment();
-    document.querySelectorAll("section").forEach(section => {
+    sections.forEach(section => {
         const li = document.createElement('li');
         li.setAttribute("data-section", section.id);
         li.textContent = section.getAttribute("data-nav");
@@ -46,7 +58,13 @@ const buildNav = () => {
 };
 
 // Add class 'active' to section when near top of viewport
-
+const checkActiveSection = (event) => {
+    sections.forEach((section, idx) => {
+        if (isInViewport(section, 0.5)) {
+            setActiveSection(section);
+        };
+    });
+}
 
 // Scroll to anchor ID using scrollTO event
 const scrollToSection = (event) => {
@@ -70,5 +88,4 @@ buildNav();
 document.querySelector("#navbar__list").addEventListener("click", scrollToSection);
 
 // Set sections as active
-
-
+window.addEventListener('scroll', checkActiveSection);
