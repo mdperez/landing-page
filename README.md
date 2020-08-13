@@ -18,3 +18,5 @@
 - While scrolling, when the top of a section reach the upper 50% of the viewport, the section and the element of the menu related to it, becomes active.
 - If you click on a menu element, you will scroll smoothly to that section. Menu element and section will become active like if you scroll manually.
 - After 3 seconds without scrolling, the nabvar hides until you scroll again. The hidding function triggers after the first time you scroll in the web.
+- When you scroll more than a viewport height, a button that let you go top will appear on a side.
+- Sections will collapse/uncollapse clicking on the title.

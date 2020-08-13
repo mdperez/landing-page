@@ -17,9 +17,12 @@
  * Define Global Variables
  * 
 */
+const html = document.querySelector("html");
 const sections = document.querySelectorAll("section");
 const navbar = document.querySelector("#navbar__list");
 const header = document.querySelector(".page__header");
+const topButton = document.querySelector(".button__top");
+
 let timer;
 
 /**
@@ -88,7 +91,8 @@ const scrollToSection = (event) => {
     };
 }
 
-const hideMenu = (event) => {
+// Reset the timeout to check the time without scroll
+const hideMenu = (e) => {
     clearTimeout(timer);
     header.classList.remove("hidden");
     timer = setTimeout(() => {
@@ -96,6 +100,24 @@ const hideMenu = (event) => {
     }, 3000);
 }
 
+// Goes back to the top of the page
+const goTop = () => {
+    window.scrollTo(0, 0);
+}
+
+// Check if the scroll amount is enough to show the go to top button
+const checkButton = () => {
+    if (html.scrollTop > window.innerHeight) {
+        topButton.classList.add("show");
+    } else {
+        topButton.classList.remove("show");
+    }
+}
+
+// Collapse or uncollapse section
+const toggleCollapse = (event) => {
+    event.currentTarget.parentNode.classList.toggle("collapse");     
+};
 
 /**
  * End Main Functions
@@ -114,4 +136,13 @@ window.addEventListener('scroll', checkActiveSection);
 // Hide menu after 3 seconds without scroll
 window.addEventListener('scroll', hideMenu);
 
+// Go back to top when clicking on the side button
+topButton.addEventListener("click", goTop);
 
+// Controls show/hide the go to top button
+window.addEventListener('scroll', checkButton);
+
+// Collapse sections clicking on the header
+document.querySelectorAll(".landing__container h2").forEach((sectionHeader) => {
+    sectionHeader.addEventListener("click", toggleCollapse);
+});
